@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skrining Gaya Hidup Bebas Hipertensi</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      background: #f0f4f8;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    h1 {
+      color: #0a3d62;
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #0a3d62;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #3c6382;
+    }
+    #result {
+      margin-top: 30px;
+      font-weight: bold;
+      font-size: 1.2em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Skrining Gaya Hidup Bebas Hipertensi</h1>
+
+<form id="quizForm">
+
+  <!-- Pertanyaan akan dimasukkan lewat JavaScript -->
+
+</form>
+
+<div style="text-align: center;">
+  <button type="button" onclick="calculateScore()">Cek Hasil</button>
+</div>
+
+<div id="result"></div>
+
+<script>
+  const questions = [
+    {
+      text: "Seberapa sering Anda mengonsumsi sayur setiap hari?",
+      options: [
+        { label: "A. Tidak pernah", value: 0 },
+        { label: "B. 1 porsi per hari", value: 1 },
+        { label: "C. 2–3 porsi per hari", value: 1 },
+        { label: "D. ≥ 4 porsi per hari", value: 2 }
+      ]
+    },
+    {
+      text: "Berapa gelas air putih yang Anda minum rata-rata per hari?",
+      options: [
+        { label: "A. < 4 gelas", value: 0 },
+        { label: "B. 4–6 gelas", value: 1 },
+        { label: "C. 7–8 gelas", value: 1 },
+        { label: "D. ≥ 8 gelas", value: 2 }
+      ]
+    },
+    {
+      text: "Seberapa sering Anda berolahraga (≥30 menit) dalam seminggu?",
+      options: [
+        { label: "A. Tidak pernah", value: 0 },
+        { label: "B. 1–2 kali", value: 1 },
+        { label: "C. 3–4 kali", value: 1 },
+        { label: "D. ≥ 5 kali", value: 2 }
+      ]
+    },
+    {
+      text: "Seberapa sering Anda mengonsumsi makanan cepat saji?",
+      options: [
+        { label: "A. Setiap hari", value: 0 },
+        { label: "B. 4–5 kali seminggu", value: 1 },
+        { label: "C. 1–2 kali seminggu", value: 1 },
+        { label: "D. Jarang/tidak pernah", value: 2 }
+      ]
+    },
+    {
+      text: "Apakah Anda rutin memeriksa tekanan darah Anda minimal 1 kali dalam 6 bulan?",
+      options: [
+        { label: "A. Tidak pernah", value: 0 },
+        { label: "B. Jarang", value: 1 },
+        { label: "C. Kadang-kadang", value: 1 },
+        { label: "D. Rutin", value: 2 }
+      ]
+    },
+    {
+      text: "Apakah Anda memiliki kebiasaan merokok?",
+      options: [
+        { label: "A. Ya, setiap hari", value: 0 },
+        { label: "B. Kadang-kadang", value: 1 },
+        { label: "C. Pernah, tapi sudah berhenti", value: 1 },
+        { label: "D. Tidak pernah merokok", value: 2 }
+      ]
+    },
+    {
+      text: "Apakah Anda sering merasa stres?",
+      options: [
+        { label: "A. Sangat sering", value: 0 },
+        { label: "B. Cukup sering", value: 1 },
+        { label: "C. Jarang", value: 2 },
+        { label: "D. Tidak pernah", value: 2 }
+      ]
+    },
+    {
+      text: "Seberapa sering Anda mengonsumsi makanan tinggi garam (asin, kaldu bubuk, makanan awetan)?",
+      options: [
+        { label: "A. Setiap hari", value: 0 },
+        { label: "B. 4–5 kali seminggu", value: 1 },
+        { label: "C. 1–2 kali seminggu", value: 1 },
+        { label: "D. Jarang/tidak pernah", value: 2 }
+      ]
+    },
+    {
+      text: "Berapa jam rata-rata Anda tidur setiap malam?",
+      options: [
+        { label: "A. < 5 jam", value: 0 },
+        { label: "B. 5–6 jam", value: 1 },
+        { label: "C. 7–8 jam", value: 2 },
+        { label: "D. > 9 jam", value: 1 }
+      ]
+    },
+    {
+      text: "Apakah Anda mengonsumsi alkohol?",
+      options: [
+        { label: "A. Ya, setiap hari", value: 0 },
+        { label: "B. 1–2 kali seminggu", value: 1 },
+        { label: "C. Jarang", value: 1 },
+        { label: "D. Tidak pernah", value: 2 }
+      ]
+    },
+    {
+      text: "Apakah Anda memiliki riwayat hipertensi dalam keluarga?",
+      options: [
+        { label: "A. Ya, kedua orang tua", value: 0 },
+        { label: "B. Ya, salah satu orang tua", value: 1 },
+        { label: "C. Saudara kandung saja", value: 1 },
+        { label: "D. Tidak ada riwayat", value: 2 }
+      ]
+    },
+    {
+      text: "Apakah Anda rutin memeriksa kadar kolesterol minimal setahun sekali?",
+      options: [
+        { label: "A. Tidak pernah", value: 0 },
+        { label: "B. Jarang", value: 1 },
+        { label: "C. Kadang-kadang", value: 1 },
+        { label: "D. Rutin", value: 2 }
+      ]
+    },
+    {
+      text: "Apakah Anda lebih sering berjalan kaki atau memilih kendaraan untuk jarak dekat (<1 km)?",
+      options: [
+        { label: "A. Selalu kendaraan", value: 0 },
+        { label: "B. Kadang jalan kaki", value: 1 },
+        { label: "C. Sering jalan kaki", value: 1 },
+        { label: "D. Selalu jalan kaki", value: 2 }
+      ]
+    },
+    {
+      text: "Apakah Anda membaca label komposisi makanan sebelum membeli?",
+      options: [
+        { label: "A. Tidak pernah", value: 0 },
+        { label: "B. Jarang", value: 1 },
+        { label: "C. Kadang-kadang", value: 1 },
+        { label: "D. Selalu", value: 2 }
+      ]
+    },
+    {
+      text: "Apakah Anda mengonsumsi buah setiap hari?",
+      options: [
+        { label: "A. Tidak pernah", value: 0 },
+        { label: "B. 1 porsi per hari", value: 1 },
+        { label: "C. 2–3 porsi per hari", value: 1 },
+        { label: "D. ≥ 4 porsi per hari", value: 2 }
+      ]
+    }
+  ];
+
+  const form = document.getElementById('quizForm');
+
+  // generate pertanyaan
+  questions.forEach((q, index) => {
+    const div = document.createElement('div');
+    div.className = "question";
+
+    const h3 = document.createElement('h3');
+    h3.textContent = `${index + 1}. ${q.text}`;
+    div.appendChild(h3);
+
+    q.options.forEach(opt => {
+      const label = document.createElement('label');
+      const input = document.createElement('input');
+      input.type = "radio";
+      input.name = `q${index}`;
+      input.value = opt.value;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(" " + opt.label));
+      div.appendChild(label);
+      div.appendChild(document.createElement('br'));
+    });
+
+    form.appendChild(div);
+  });
+
+  function calculateScore() {
+    let score = 0;
+
+    for (let i = 0; i < questions.length; i++) {
+      const radios = document.getElementsByName(`q${i}`);
+      let answered = false;
+      for (const radio of radios) {
+        if (radio.checked) {
+          score += parseInt(radio.value);
+          answered = true;
+          break;
+        }
+      }
+      if (!answered) {
+        alert(`Pertanyaan nomor ${i+1} belum dijawab.`);
+        return;
+      }
+    }
+
+    let result = "";
+    if (score >= 25) {
+      result = "Risiko Hipertensi Anda Rendah.";
+    } else if (score >= 16) {
+      result = "Risiko Hipertensi Anda Sedang.";
+    } else {
+      result = "Risiko Hipertensi Anda Tinggi.";
+    }
+
+    document.getElementById('result').innerText = `Skor Anda: ${score}\n${result}`;
+  }
+</script>
+
+</body>
+</html>
